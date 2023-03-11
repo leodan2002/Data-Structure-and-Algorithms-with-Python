@@ -87,6 +87,16 @@ def new_route(start_point=None, end_point=None):
     print("Wrong input. Please try again.")
     new_route()
 
+def get_active_stations():
+  updated_metro = vc_metro
+  for station_under_construction in stations_under_construction:
+    for current_station, neighboring_station in vc_metro.items():
+      if current_station != station_under_construction:
+        updated_metro[current_station] -= set(station_under_construction)
+      else:
+        updated_metro[current_station] = set([])
+  return updated_metro
+
 def get_route(start_point, end_point):
   start_stations = vc_landmarks[start_point]
   end_stations = vc_landmarks[end_point]
@@ -104,15 +114,7 @@ def get_route(start_point, end_point):
   shortest_route = min(routes, key=len)
   return shortest_route
 
-def get_active_stations():
-  updated_metro = vc_metro
-  for station_under_construction in stations_under_construction:
-    for current_station, neighboring_station in vc_metro.items():
-      if current_station != station_under_construction:
-        updated_metro[current_station] -= set(station_under_construction)
-      else:
-        updated_metro[current_station] = set([])
-  return updated_metro
+
 
 def goodbye():
   print("Thanks for using SkyRoute!")
